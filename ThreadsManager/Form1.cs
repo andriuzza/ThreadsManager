@@ -61,11 +61,8 @@ namespace ThreadsManager
             }
         }
 
-        private void DoThreadWork(/*DbManager manage*/)
+        private void DoThreadWork()
         {
-         //   var manage = new DbManager();
-           // manage.OpenConnection();
-
             new Thread(() =>
             {
                 var manage = new DbManager();
@@ -75,12 +72,6 @@ namespace ThreadsManager
                 {
                     var thread = _helper.GetPairOfIdAndSequence();
                   
-                    listView1.Invoke((MethodInvoker) delegate
-                    {
-                        InsertListItems(thread);
-                        Application.DoEvents();
-                    });
-
                     string responseMessage = "";
 
                     try
@@ -98,6 +89,13 @@ namespace ThreadsManager
                         MessageBox.Show(responseMessage);
                         Environment.Exit(Environment.ExitCode);
                     }
+
+                    listView1.Invoke((MethodInvoker)delegate
+                    {
+                        InsertListItems(thread);
+                        Thread.Sleep(25);
+                        Application.DoEvents();
+                    });
                 }
 
             }).Start();
