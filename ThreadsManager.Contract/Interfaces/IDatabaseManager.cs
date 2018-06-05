@@ -11,5 +11,7 @@ namespace ThreadsManager.Contract.Interfaces
     {
         void InitializeDatabase();
         string InsertInformationToDb(ThreadInformation data);
+        void OpenConnection();
+        void CloseConnection();
     }
 }

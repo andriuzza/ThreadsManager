@@ -14,7 +14,8 @@ namespace ThreadsManager.DataSql.DbManager
     public class DbManager : IDatabaseManager
     {
         private readonly string ConnectionString;
-
+        private OleDbConnection con = null;
+        private OleDbCommand cmd = null;
         public const string CREATE_QUERY =
             @"CREATE TABLE Thread
                 (
@@ -38,6 +39,22 @@ namespace ThreadsManager.DataSql.DbManager
                                + dir + ";\r\nPersist Security Info=False;";
         }
 
+        public void OpenConnection()
+        {
+            con = new OleDbConnection(ConnectionString);
+            cmd = new OleDbCommand
+            {
+                Connection = con
+            };
+
+            con.Open();
+        }
+
+        public void CloseConnection()
+        {
+            con.Close();
+        }
+
         public void InitializeDatabase()
         {
             OleDbConnection Connection = new OleDbConnection(ConnectionString);
@@ -51,25 +68,14 @@ namespace ThreadsManager.DataSql.DbManager
         {
             data.DateTime =  new DateTime(data.DateTime.Year, data.DateTime.Month, data.DateTime.Day,
                 data.DateTime.Hour, data.DateTime.Minute, data.DateTime.Second, data.DateTime.Kind);
-            try
-            {
-                var con = new OleDbConnection(ConnectionString);
-                var cmd = new OleDbCommand();
-                cmd.Connection = con;
+           
+            cmd.CommandText = @"INSERT INTO Thread(Sequence, Thread_ID, DateT) Values(@FN, @LN, @GN)";
+            cmd.Parameters.AddWithValue("@FN", data.Sequence);
+            cmd.Parameters.AddWithValue("@LN", data.ThreadId);
+            cmd.Parameters.Add(new OleDbParameter("@GN", data.DateTime));
 
-                cmd.CommandText = @"INSERT INTO Thread(Sequence, Thread_ID, DateT) Values(@FN, @LN, @GN)";
-                cmd.Parameters.AddWithValue("@FN", data.Sequence);
-                cmd.Parameters.AddWithValue("@LN", data.ThreadId);
-                cmd.Parameters.Add(new OleDbParameter("@GN", data.DateTime));
-                con.Open();
-                cmd.ExecuteNonQuery();
-                con.Close();
-            }
-            catch (Exception ex)
-            {
-                return "Something got wrong with db";
-            }
-
+            cmd.ExecuteNonQuery();
+            
             return "Success";
         }
     }

@@ -10,19 +10,18 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ThreadsManager.Contract.Interfaces;
 using ThreadsManager.Contract.Models;
+using ThreadsManager.DataSql.DbManager;
 using ThreadsManager.Helper;
 
 namespace ThreadsManager
 {
     public partial class Form1 : Form
     {
-        private readonly IDatabaseManager _manager;
         private readonly IThreadsHelper _helper;
 
-        public Form1(IDatabaseManager manager,
+        public Form1(
             IThreadsHelper helper)
         {
-            _manager = manager;
             _helper = helper;
             InitializeComponent();
             listView1.View = View.Details;
@@ -48,7 +47,7 @@ namespace ThreadsManager
             Environment.Exit(Environment.ExitCode);
         }
 
-        private void InsertListItems(ThreadInformation information)
+        private void InsertListItems(ThreadInformation information, DbManager db)
         {
             string[] row = { information.ThreadId.ToString(), information.Sequence };
             var listViewItem = new ListViewItem(row);
@@ -58,36 +57,44 @@ namespace ThreadsManager
             {
                 listView1.Items.RemoveAt(19);
             }
-
-            
-            var msg = _manager.InsertInformationToDb(information);
-
-            if (!msg.Equals("Success"))
-            {
-                MessageBox.Show(msg);
-            }
         }
 
         private void DoThreadWork()
         {
             new Thread(() =>
             {
+                var manager = new DbManager();
+                manager.OpenConnection();
                 while (true)
                 {
                     var thread = _helper.GetPairOfIdAndSequence();
+                  
+                    listView1.Invoke((MethodInvoker) delegate
+                    {
+                        InsertListItems(thread, manager);
+                        Application.DoEvents();
+                    });
 
-                    if (listView1.InvokeRequired)
+                    string responseMessage;
+
+                    try
                     {
-                        listView1.Invoke((MethodInvoker) delegate {
-                            InsertListItems(thread);
-                        });
+                        responseMessage = manager.InsertInformationToDb(thread);
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        InsertListItems(thread);
+                        responseMessage = "Failed!";
+                    }
+
+                    if (!responseMessage.Equals("Success"))
+                    {
+                        manager.CloseConnection();
+                        MessageBox.Show(responseMessage);
                     }
                 }
+
             }).Start();
+
         }
     }
 }
