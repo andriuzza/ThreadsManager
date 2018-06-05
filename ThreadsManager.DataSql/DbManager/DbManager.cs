@@ -58,7 +58,7 @@ namespace ThreadsManager.DataSql.DbManager
 
         public void InitializeDatabase()
         {
-            OleDbConnection Connection = new OleDbConnection(ConnectionString);
+            OleDbConnection Connection = new OleDbConnection(ConnectionString); /*possible way to wrapping into 'using()' for dispose method for mem leaks */
 
             OleDbCommand Command = new OleDbCommand(CREATE_QUERY, Connection);
 

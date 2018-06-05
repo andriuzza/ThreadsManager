@@ -65,7 +65,8 @@ namespace ThreadsManager
         {
             new Thread(() =>
             {
-                var manage = new DbManager();
+                var manage = new DbManager(); /*keeping the sql connection open per one thread for performance improvement */
+
                 manage.OpenConnection();
 
                 while (true)
@@ -85,12 +86,12 @@ namespace ThreadsManager
 
                     if (responseMessage.Equals("Failed"))
                     {
-                        manage.CloseConnection();
+                        manage.CloseConnection(); /*closing thread's connection after all INSERT queries */
                         MessageBox.Show(responseMessage);
                         Environment.Exit(Environment.ExitCode);
                     }
 
-                    listView1.Invoke((MethodInvoker)delegate
+                    listView1.Invoke((MethodInvoker)delegate /*calling UI thread to change form elements */
                     {
                         InsertListItems(thread);
                         Thread.Sleep(25);
