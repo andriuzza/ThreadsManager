@@ -18,10 +18,12 @@ namespace ThreadsManager
     public partial class Form1 : Form
     {
         private readonly IThreadsHelper _helper;
+        private readonly IDatabaseManager _manager;
 
-        public Form1(
+        public Form1( IDatabaseManager manager,
             IThreadsHelper helper)
         {
+            _manager = manager;
             _helper = helper;
             InitializeComponent();
             listView1.View = View.Details;
@@ -36,6 +38,8 @@ namespace ThreadsManager
 
             button1.Enabled = false;
 
+            _manager.OpenConnection();
+
             for (var i = 0; i < numberOfThreads; i++)
             {
                 DoThreadWork();
@@ -47,7 +51,7 @@ namespace ThreadsManager
             Environment.Exit(Environment.ExitCode);
         }
 
-        private void InsertListItems(ThreadInformation information, DbManager db)
+        private void InsertListItems(ThreadInformation information)
         {
             string[] row = { information.ThreadId.ToString(), information.Sequence };
             var listViewItem = new ListViewItem(row);
@@ -63,15 +67,13 @@ namespace ThreadsManager
         {
             new Thread(() =>
             {
-                var manager = new DbManager();
-                manager.OpenConnection();
                 while (true)
                 {
                     var thread = _helper.GetPairOfIdAndSequence();
                   
                     listView1.Invoke((MethodInvoker) delegate
                     {
-                        InsertListItems(thread, manager);
+                        InsertListItems(thread);
                         Application.DoEvents();
                     });
 
@@ -79,7 +81,7 @@ namespace ThreadsManager
 
                     try
                     {
-                        responseMessage = manager.InsertInformationToDb(thread);
+                        responseMessage = _manager.InsertInformationToDb(thread);
                     }
                     catch (Exception ex)
                     {
@@ -88,8 +90,9 @@ namespace ThreadsManager
 
                     if (!responseMessage.Equals("Success"))
                     {
-                        manager.CloseConnection();
+                        _manager.CloseConnection();
                         MessageBox.Show(responseMessage);
+                        Environment.Exit(Environment.ExitCode);
                     }
                 }
 

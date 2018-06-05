@@ -66,7 +66,7 @@ namespace ThreadsManager.DataSql.DbManager
 
         public string InsertInformationToDb(ThreadInformation data)
         {
-            data.DateTime =  new DateTime(data.DateTime.Year, data.DateTime.Month, data.DateTime.Day,
+          /*  data.DateTime =  new DateTime(data.DateTime.Year, data.DateTime.Month, data.DateTime.Day,
                 data.DateTime.Hour, data.DateTime.Minute, data.DateTime.Second, data.DateTime.Kind);
            
             cmd.CommandText = @"INSERT INTO Thread(Sequence, Thread_ID, DateT) Values(@FN, @LN, @GN)";
@@ -74,7 +74,7 @@ namespace ThreadsManager.DataSql.DbManager
             cmd.Parameters.AddWithValue("@LN", data.ThreadId);
             cmd.Parameters.Add(new OleDbParameter("@GN", data.DateTime));
 
-            cmd.ExecuteNonQuery();
+            cmd.ExecuteNonQuery();*/
             
             return "Success";
         }

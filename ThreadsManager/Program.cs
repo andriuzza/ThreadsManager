@@ -20,7 +20,7 @@ namespace ThreadsManager
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1(helper));
+            Application.Run(new Form1(databaseManager, helper));
         }
     }
 }
