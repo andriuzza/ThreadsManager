@@ -16,6 +16,7 @@ namespace ThreadsManager.DataSql.DbManager
         private readonly string ConnectionString;
         private OleDbConnection con = null;
         private OleDbCommand cmd = null;
+
         public const string CREATE_QUERY =
             @"CREATE TABLE Thread
                 (
@@ -60,13 +61,14 @@ namespace ThreadsManager.DataSql.DbManager
             OleDbConnection Connection = new OleDbConnection(ConnectionString);
 
             OleDbCommand Command = new OleDbCommand(CREATE_QUERY, Connection);
+
             Connection.Open();
             Command.ExecuteNonQuery();
         }
 
-        public string InsertInformationToDb(ThreadInformation data)
+        public void InsertInformationToDb(ThreadInformation data)
         {
-          /*  data.DateTime =  new DateTime(data.DateTime.Year, data.DateTime.Month, data.DateTime.Day,
+            data.DateTime =  new DateTime(data.DateTime.Year, data.DateTime.Month, data.DateTime.Day,
                 data.DateTime.Hour, data.DateTime.Minute, data.DateTime.Second, data.DateTime.Kind);
            
             cmd.CommandText = @"INSERT INTO Thread(Sequence, Thread_ID, DateT) Values(@FN, @LN, @GN)";
@@ -74,9 +76,8 @@ namespace ThreadsManager.DataSql.DbManager
             cmd.Parameters.AddWithValue("@LN", data.ThreadId);
             cmd.Parameters.Add(new OleDbParameter("@GN", data.DateTime));
 
-            cmd.ExecuteNonQuery();*/
+            cmd.ExecuteNonQuery();
             
-            return "Success";
         }
     }
 }

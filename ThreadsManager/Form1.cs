@@ -38,8 +38,6 @@ namespace ThreadsManager
 
             button1.Enabled = false;
 
-            _manager.OpenConnection();
-
             for (var i = 0; i < numberOfThreads; i++)
             {
                 DoThreadWork();
@@ -63,10 +61,16 @@ namespace ThreadsManager
             }
         }
 
-        private void DoThreadWork()
+        private void DoThreadWork(/*DbManager manage*/)
         {
+         //   var manage = new DbManager();
+           // manage.OpenConnection();
+
             new Thread(() =>
             {
+                var manage = new DbManager();
+                manage.OpenConnection();
+
                 while (true)
                 {
                     var thread = _helper.GetPairOfIdAndSequence();
@@ -77,20 +81,20 @@ namespace ThreadsManager
                         Application.DoEvents();
                     });
 
-                    string responseMessage;
+                    string responseMessage = "";
 
                     try
                     {
-                        responseMessage = _manager.InsertInformationToDb(thread);
+                        manage.InsertInformationToDb(thread);
                     }
                     catch (Exception ex)
                     {
                         responseMessage = "Failed!";
                     }
 
-                    if (!responseMessage.Equals("Success"))
+                    if (responseMessage.Equals("Failed"))
                     {
-                        _manager.CloseConnection();
+                        manage.CloseConnection();
                         MessageBox.Show(responseMessage);
                         Environment.Exit(Environment.ExitCode);
                     }
