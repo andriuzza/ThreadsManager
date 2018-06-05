@@ -59,7 +59,13 @@ namespace ThreadsManager
                 listView1.Items.RemoveAt(19);
             }
 
-            _manager.InsertInformationToDb(information);
+            
+            var msg = _manager.InsertInformationToDb(information);
+
+            if (!msg.Equals("Success"))
+            {
+                MessageBox.Show(msg);
+            }
         }
 
         private void DoThreadWork()

@@ -47,20 +47,30 @@ namespace ThreadsManager.DataSql.DbManager
             Command.ExecuteNonQuery();
         }
 
-        public void InsertInformationToDb(ThreadInformation data)
+        public string InsertInformationToDb(ThreadInformation data)
         {
-            data.DateTime =  new DateTime(data.DateTime.Year, data.DateTime.Month, data.DateTime.Day, data.DateTime.Hour, data.DateTime.Minute, data.DateTime.Second, data.DateTime.Kind);
-            var  con = new OleDbConnection(ConnectionString);
-            var cmd = new OleDbCommand();
-            cmd.Connection = con;
+            data.DateTime =  new DateTime(data.DateTime.Year, data.DateTime.Month, data.DateTime.Day,
+                data.DateTime.Hour, data.DateTime.Minute, data.DateTime.Second, data.DateTime.Kind);
+            try
+            {
+                var con = new OleDbConnection(ConnectionString);
+                var cmd = new OleDbCommand();
+                cmd.Connection = con;
 
-            cmd.CommandText = @"INSERT INTO Thread(Sequence, Thread_ID, DateT) Values(@FN, @LN, @GN)";
-            cmd.Parameters.AddWithValue("@FN", data.Sequence);
-            cmd.Parameters.AddWithValue("@LN", data.ThreadId);
-            cmd.Parameters.Add(new OleDbParameter("@GN", data.DateTime)); 
-            con.Open(); 
-            cmd.ExecuteNonQuery();
-            con.Close();
+                cmd.CommandText = @"INSERT INTO Thread(Sequence, Thread_ID, DateT) Values(@FN, @LN, @GN)";
+                cmd.Parameters.AddWithValue("@FN", data.Sequence);
+                cmd.Parameters.AddWithValue("@LN", data.ThreadId);
+                cmd.Parameters.Add(new OleDbParameter("@GN", data.DateTime));
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                return "Something got wrong with db";
+            }
+
+            return "Success";
         }
     }
 }

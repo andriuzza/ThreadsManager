@@ -10,6 +10,6 @@ namespace ThreadsManager.Contract.Interfaces
     public interface IDatabaseManager
     {
         void InitializeDatabase();
-        void InsertInformationToDb(ThreadInformation data);
+        string InsertInformationToDb(ThreadInformation data);
     }
 }
