@@ -5,6 +5,12 @@ VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThreadsManager", "ThreadsManager\ThreadsManager.csproj", "{ABF9F017-2B05-4797-8794-F674AE730B9B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThreadsManager.Contract", "ThreadsManager.Contract\ThreadsManager.Contract.csproj", "{D808586F-C9C5-4850-90EC-3DD3B4E93BDF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThreadsManager.DataSql", "ThreadsManager.DataSql\ThreadsManager.DataSql.csproj", "{027C7CBE-1155-400B-9596-A03AF17F31D8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThreadsManager.TableCreate", "ThreadsManager.TableCreate\ThreadsManager.TableCreate.csproj", "{5222D21E-48CE-46CF-905B-0B9E06346EE4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +21,18 @@ Global
 		{ABF9F017-2B05-4797-8794-F674AE730B9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ABF9F017-2B05-4797-8794-F674AE730B9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ABF9F017-2B05-4797-8794-F674AE730B9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D808586F-C9C5-4850-90EC-3DD3B4E93BDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D808586F-C9C5-4850-90EC-3DD3B4E93BDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D808586F-C9C5-4850-90EC-3DD3B4E93BDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D808586F-C9C5-4850-90EC-3DD3B4E93BDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{027C7CBE-1155-400B-9596-A03AF17F31D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{027C7CBE-1155-400B-9596-A03AF17F31D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{027C7CBE-1155-400B-9596-A03AF17F31D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{027C7CBE-1155-400B-9596-A03AF17F31D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5222D21E-48CE-46CF-905B-0B9E06346EE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5222D21E-48CE-46CF-905B-0B9E06346EE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5222D21E-48CE-46CF-905B-0B9E06346EE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5222D21E-48CE-46CF-905B-0B9E06346EE4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

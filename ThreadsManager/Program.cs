@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ThreadsManager.DataSql.DbManager;
 
 namespace ThreadsManager
 {
@@ -14,9 +15,12 @@ namespace ThreadsManager
         [STAThread]
         static void Main()
         {
+            var databaseManager = new DbManager();
+            var helper = new ThreadsLoader.ThreadsLoader();
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new Form1(databaseManager, helper));
         }
     }
 }
