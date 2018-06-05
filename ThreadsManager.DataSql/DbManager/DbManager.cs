@@ -27,10 +27,17 @@ namespace ThreadsManager.DataSql.DbManager
 
         public DbManager()
         {
-            var dir = "C:\\Users\\PC\\source\\repos\\ThreadsManager\\ThreadsManager\\MDB_File\\Thread121.mdb";
+            var dir = AppDomain.CurrentDomain.BaseDirectory + "MDB_File\\Thread121.mdb";
+
+            if (dir.Contains("\\bin\\Debug"))
+            {
+                dir = dir.Replace("\\bin\\Debug", "");
+            }
+
             ConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source="
                                + dir + ";\r\nPersist Security Info=False;";
         }
+
         public void InitializeDatabase()
         {
             OleDbConnection Connection = new OleDbConnection(ConnectionString);
